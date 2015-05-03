@@ -3,6 +3,7 @@ import urllib
 import urllib2
 
 import simplejson
+import xlsxwriter
 
 import DataObject
 
@@ -39,8 +40,20 @@ def searchGoogleNews(Term):
 term = 'barack obama'
 
 search = searchGoogleNews(term)
+print len(search)
+
+workbook = xlsxwriter.Workbook('Expenses01.xlsx')
+worksheet = workbook.add_worksheet('Data')
+row = 0
 for a in search:
 
-    print a.Date
+    col = 0
+    worksheet.write(row, col,     a.Term)
+    worksheet.write(row, col + 1, a.Date)
+    worksheet.write(row, col + 2, a.Publisher)
+    worksheet.write(row, col + 3, a.Title)
+    worksheet.write(row, col + 4, a.URL)
 
-print len(search)
+    row += 1
+
+workbook.close()
