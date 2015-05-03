@@ -6,12 +6,16 @@ class article(object):
         Publisher = ''
         Title     = ''
         URL       = ''
+        Term      = ''
 
-        def __init__(self, Date, Publisher, Title, URL):
+        def __init__(self, Date, Publisher, Title, URL, Term):
             self.Date       = Date
             self.Publisher  = Publisher
             self.Title      = Title
             self.URL        = URL
+            self.Term       = Term
+            
+            
+def new_article(Date, Publisher, Title, URL, Term):
 
-def new_article ( Date, Publisher, Title, URL):
-    return article(Date, Publisher, Title, URL)
+    return article(Date, Publisher, Title, URL, Term)
