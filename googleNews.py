@@ -1,20 +1,27 @@
 __author__ = 'Tyler Rudie'
+import urllib
 import urllib2
 
 import simplejson
 
 
-url = ('https://ajax.googleapis.com/ajax/services/search/news?' +
-       'v=1.0&q=barack%20obama&start=16' )
+term = 'barack obama'
 
-request = urllib2.Request(url, None, )
-response = urllib2.urlopen(request)
+encoded = urllib.quote(term)
+pages = ['0','4','8','12','16','20','24']
+results = []
+for i in pages:
+        url = ('https://ajax.googleapis.com/ajax/services/search/news?' +
+               'v=1.0&q='+
+               encoded   +
+               '&start=' +
+               i)
 
-# Process the JSON string.
-results = simplejson.load(response)
-# now have some fun with the results...
-print results['responseData']['cursor']['pages']
+        request = urllib2.Request(url, None, )
+        response = urllib2.urlopen(request)
 
-for  a in results['responseData']['results']:
-    print a['publishedDate'] + ' ' + a['publisher']
+        # Process the JSON string.
+        results = simplejson.load(response)
+        for  a in results['responseData']['results']:
+            print a['publishedDate'] + ' ' + a['publisher']
 
