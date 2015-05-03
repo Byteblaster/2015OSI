@@ -7,9 +7,9 @@ import simplejson
 import DataObject
 
 
-def SearchGoogleNews(Term):
+def searchGoogleNews(Term):
     encoded = urllib.quote(Term)
-    pages = ['0', '4', '8', '12', '16', '20', '24', '28']
+    pages = ['0', '4', '8', '12', '16', '20', '24', '28', '32', '36', '40', '44', '48', '52', '56', '60']
     data = []
     for i in pages:
             url = ('https://ajax.googleapis.com/ajax/services/search/news?' +
@@ -23,13 +23,14 @@ def SearchGoogleNews(Term):
 
             # Process the JSON string.
             results = simplejson.load(response)
-            for a in results['responseData']['results']:
-                ## print a['publishedDate'] + ' ' + a['publisher']
-                data.append(DataObject.new_article( a['publishedDate'],
-                                                            a['publisher'],
-                                                            a['title'],
-                                                            a['url'],
-                                                            Term))
+            if results['responseStatus'] == 200:
+                for a in results['responseData']['results']:
+
+                    data.append(DataObject.new_article( a['publishedDate'],
+                                                        a['publisher'],
+                                                        a['title'],
+                                                        a['url'],
+                                                        Term))
 
     return data
 
@@ -37,6 +38,9 @@ def SearchGoogleNews(Term):
 
 term = 'barack obama'
 
-for a in SearchGoogleNews(term):
+search = searchGoogleNews(term)
+for a in search:
 
     print a.Date
+
+print len(search)
