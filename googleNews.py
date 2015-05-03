@@ -24,13 +24,13 @@ def searchGoogleNews(Term):
             # Process the JSON string.
             results = simplejson.load(response)
             if results['responseStatus'] == 200:
-                for a in results['responseData']['results']:
+                for record in results['responseData']['results']:
 
-                    data.append(DataObject.new_article( a['publishedDate'],
-                                                        a['publisher'],
-                                                        a['title'],
-                                                        a['url'],
-                                                        Term))
+                    data.append(DataObject.new_article(record['publishedDate'],
+                                                       record['publisher'],
+                                                       record['title'],
+                                                       record['url'],
+                                                       Term))
 
     return data
 
