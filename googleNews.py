@@ -29,20 +29,23 @@ def searchGoogleNews(Term):
 
                     data.append(DataObject.new_article(record['publishedDate'],
                                                        record['publisher'],
-                                                       record['title'],
-                                                       record['url'],
+                                                       record['titleNoFormatting'],
+                                                       record['unescapedUrl'],
                                                        Term))
 
     return data
 
 
 
-term = 'barack obama'
+terms = ['barack obama', 'Hilary Clinton', 'GamerGate']
+search = []
+for term in terms:
+    results = searchGoogleNews(term)
+    for i in results:
+        search.append(i)
+    print len(search)
 
-search = searchGoogleNews(term)
-print len(search)
-
-workbook = xlsxwriter.Workbook('Expenses01.xlsx')
+workbook = xlsxwriter.Workbook('results.xlsx')
 worksheet = workbook.add_worksheet('Data')
 row = 0
 for a in search:
